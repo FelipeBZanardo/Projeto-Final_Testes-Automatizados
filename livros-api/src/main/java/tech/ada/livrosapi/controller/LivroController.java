@@ -3,6 +3,7 @@ package tech.ada.livrosapi.controller;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.ada.livrosapi.model.dto.LivroRequest;
@@ -25,6 +26,7 @@ public class LivroController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public LivroResponse create(@Valid @RequestBody LivroRequest livroRequest){
         return modelMapper.map(livroService.create(livroRequest), LivroResponse.class);
     }
