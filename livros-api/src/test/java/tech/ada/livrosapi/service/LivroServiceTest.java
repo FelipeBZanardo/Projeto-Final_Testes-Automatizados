@@ -46,7 +46,6 @@ class LivroServiceTest {
     @Test
     void deveCriarUmLivroTest() {
         doReturn(livro).when(livroRepository).save(any(Livro.class));
-        //when(livroRepository.save(any(Livro.class))).thenReturn(livro);
         Livro resultado = livroService.create(livroRequest);
         assertEquals(livro.getTitulo(), resultado.getTitulo());
     }
