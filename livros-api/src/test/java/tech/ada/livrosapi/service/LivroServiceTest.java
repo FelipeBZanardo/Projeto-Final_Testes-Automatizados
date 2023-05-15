@@ -74,7 +74,7 @@ class LivroServiceTest {
     }
 
     @Test
-    void deveObterExceptionPorIdInesxistenteNaCriacaoDoLivroTest() {
+    void deveObterExceptionPorIdInexistenteNaCriacaoDoLivroTest() {
         doThrow(new BookNotFoundException(ID)).when(livroRepository).findById(any(UUID.class));
         BookNotFoundException bookNotFoundException = assertThrows(BookNotFoundException.class, () -> livroService.getById(ID));
         assertEquals(String.format("ID %s não existe na base de dados", ID), bookNotFoundException.getMessage());
@@ -89,7 +89,7 @@ class LivroServiceTest {
     }
 
     @Test
-    void deveObterExceptionPorIdInesxistenteNaAtualizacaoDoLivroTest() {
+    void deveObterExceptionPorIdInexistenteNaAtualizacaoDoLivroTest() {
         doThrow(new BookNotFoundException(ID)).when(livroRepository).findById(any(UUID.class));
         BookNotFoundException bookNotFoundException = assertThrows(BookNotFoundException.class,
                 () -> livroService.update(ID, livroRequest));
@@ -105,7 +105,7 @@ class LivroServiceTest {
     }
 
     @Test
-    void deveObterExceptionPorIdInesxistenteNaRemocaoDoLivroTest() {
+    void deveObterExceptionPorIdInexistenteNaRemocaoDoLivroTest() {
         doThrow(new BookNotFoundException(ID)).when(livroRepository).findById(any(UUID.class));
         BookNotFoundException bookNotFoundException = assertThrows(BookNotFoundException.class,
                 () -> livroService.delete(ID));
