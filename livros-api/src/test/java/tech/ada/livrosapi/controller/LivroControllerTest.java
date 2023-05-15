@@ -39,7 +39,6 @@ class LivroControllerTest {
     private LivroRequest livroRequest;
     private LivroResponse livroResponse;
     private Livro livro;
-    private String livroResponseJson;
     private static final UUID ID = UUID.fromString("5fa3cf7a-2836-40dc-957b-43bdac98104a");
     private static final String TITULO = "Titulo";
     private static final String RESUMO = "Resumo";
@@ -50,11 +49,9 @@ class LivroControllerTest {
     private static final LocalDate DATA_PUBLICACAO = LocalDate.of(2023,6,25);
 
     @BeforeEach
-    void setUp() throws JsonProcessingException {
+    void setUp() {
         this.mockMvc = MockMvcBuilders.standaloneSetup(livroController).build();
         startLivro();
-        gerarJson();
-
     }
 
     @Test
@@ -63,9 +60,9 @@ class LivroControllerTest {
         doReturn(livroResponse).when(modelMapper).map(any(Livro.class), any());
         mockMvc.perform(MockMvcRequestBuilders.post("/livros")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(livroResponseJson))
+                        .content(gerarJson(livroRequest)))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(content().json(livroResponseJson))
+                .andExpect(content().json(gerarJson(livroResponse)))
                 .andExpect(status().isCreated());
 
         verify(livroService).create(livroRequest);
@@ -93,7 +90,7 @@ class LivroControllerTest {
         doReturn(livroResponse).when(modelMapper).map(any(Livro.class), any());
         mockMvc.perform(MockMvcRequestBuilders.get("/livros/{id}", ID))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(content().json(livroResponseJson))
+                .andExpect(content().json(gerarJson(livroResponse)))
                 .andExpect(status().isOk());
 
         verify(livroService).getById(ID);
@@ -105,9 +102,9 @@ class LivroControllerTest {
         doReturn(livro).when(livroService).update(any(UUID.class), any(LivroRequest.class));
         mockMvc.perform(MockMvcRequestBuilders.put("/livros/{id}", ID)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(livroResponseJson))
+                        .content(gerarJson(livroRequest)))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(content().json(livroResponseJson))
+                .andExpect(content().json(gerarJson(livroResponse)))
                 .andExpect(status().isOk());
 
         verify(livroService).update(ID, livroRequest);
@@ -131,9 +128,9 @@ class LivroControllerTest {
         livro = new Livro(ID, TITULO, RESUMO, SUMARIO, PRECO, NUMERO_PAGINAS, ISBN, DATA_PUBLICACAO);
     }
 
-    private void gerarJson() throws JsonProcessingException {
+    private String gerarJson(Object object) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-        livroResponseJson = objectMapper.writeValueAsString(livroResponse);
+        return objectMapper.writeValueAsString(object);
     }
 
 }
