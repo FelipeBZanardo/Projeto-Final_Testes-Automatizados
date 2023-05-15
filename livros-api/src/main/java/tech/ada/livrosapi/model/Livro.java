@@ -30,7 +30,7 @@ public class Livro {
     private String resumo;
     private String sumario;
     private BigDecimal preco;
-    private int numeroPaginas;
+    private Integer numeroPaginas;
     private String isbn;
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
