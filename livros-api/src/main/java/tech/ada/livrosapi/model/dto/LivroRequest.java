@@ -14,7 +14,7 @@ public record LivroRequest(
         @NotBlank(message = "O Resumo do livro é obrigatório")
         @Size(max = 500, message = "O resumo deve conter no máximo 500 caracteres")
         String resumo,
-        @NotNull(message = "O Sumário do livro é obrigatório")
+        @NotBlank(message = "O Sumário do livro é obrigatório")
         String sumario,
         @NotNull(message = "O Preço do livro é obrigatório")
         @DecimalMin(value = "20.00", message = "O valor mínimo é de R$20,00")
@@ -28,6 +28,6 @@ public record LivroRequest(
         //@JsonFormat(pattern = "dd/MM/yyyy")
         @JsonDeserialize(using = LocalDateDeserializer.class)
         @JsonSerialize(using = LocalDateSerializer.class)
-        @Future(message = "A Data de Publicação do livro deve ser no fututo")
+        @Future(message = "A Data de Publicação do livro deve ser no futuro")
         @NotNull(message = "A Data de Publicação do livro é obrigatória")
         LocalDate dataPublicacao) { }
