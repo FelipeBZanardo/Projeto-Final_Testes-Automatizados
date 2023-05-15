@@ -26,27 +26,30 @@ public class LivroController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public LivroResponse create(@Valid @RequestBody LivroRequest livroRequest){
-        return modelMapper.map(livroService.create(livroRequest), LivroResponse.class);
+    public ResponseEntity<LivroResponse> create(@Valid @RequestBody LivroRequest livroRequest){
+        LivroResponse livroResponse = modelMapper.map(livroService.create(livroRequest), LivroResponse.class);
+        return new ResponseEntity<LivroResponse>(livroResponse, HttpStatus.CREATED);
     }
 
     @GetMapping
-    public List<LivroResponse> getAll(){
-        return livroService.getAll()
+    public ResponseEntity<List<LivroResponse>> getAll(){
+        List<LivroResponse> responseList = livroService.getAll()
                 .stream()
                 .map(livro -> modelMapper.map(livro, LivroResponse.class))
                 .toList();
+        return ResponseEntity.ok(responseList);
     }
 
     @GetMapping("/{id}")
-    public LivroResponse getById(@PathVariable UUID id){
-        return modelMapper.map(livroService.getById(id), LivroResponse.class);
+    public ResponseEntity<LivroResponse> getById(@PathVariable UUID id){
+        LivroResponse livroResponse = modelMapper.map(livroService.getById(id), LivroResponse.class);
+        return ResponseEntity.ok(livroResponse);
     }
 
     @PutMapping("/{id}")
-    public LivroResponse update(@PathVariable UUID id, @Valid @RequestBody LivroRequest livroRequest){
-        return modelMapper.map(livroService.update(id, livroRequest), LivroResponse.class);
+    public ResponseEntity<LivroResponse> update(@PathVariable UUID id, @Valid @RequestBody LivroRequest livroRequest){
+        LivroResponse livroResponse = modelMapper.map(livroService.update(id, livroRequest), LivroResponse.class);
+        return ResponseEntity.ok(livroResponse);
     }
 
     @DeleteMapping("/{id}")
