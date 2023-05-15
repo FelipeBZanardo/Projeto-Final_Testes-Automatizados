@@ -24,9 +24,9 @@ public class ExceptionHandlerControllerAdvice extends ResponseEntityExceptionHan
     public static final String METHOD_ARGUMENT_NOT_VALID_ERROR_MESSAGE = "Campo inválido: '%s'. Causa: '%s'.%n";
 
     @ExceptionHandler(BookNotFoundException.class)
-    public ResponseEntity<Object> handleBookNotFoundException(BookNotFoundException ex) {
+    public ResponseEntity<String> handleBookNotFoundException(BookNotFoundException ex) {
         String errorMessage = ex.getMessage();
-        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+        HttpStatus httpStatus = HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(errorMessage, httpStatus);
     }
     @Override
