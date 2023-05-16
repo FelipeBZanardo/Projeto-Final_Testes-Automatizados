@@ -28,9 +28,9 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
-class LivroControllerTest {
+class LivroRestControllerTest {
     @InjectMocks
-    private LivroController livroController;
+    private LivroRestController livroRestController;
     @Mock
     private LivroService livroService;
     @Mock
@@ -51,7 +51,7 @@ class LivroControllerTest {
 
     @BeforeEach
     void setUp() throws JsonProcessingException {
-        this.mockMvc = MockMvcBuilders.standaloneSetup(livroController).build();
+        this.mockMvc = MockMvcBuilders.standaloneSetup(livroRestController).build();
         startLivro();
         gerarJson();
 

@@ -2,10 +2,13 @@ package tech.ada.livrosapi.controller;
 
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import tech.ada.livrosapi.model.Livro;
 import tech.ada.livrosapi.model.dto.LivroRequest;
 import tech.ada.livrosapi.model.dto.LivroResponse;
 import tech.ada.livrosapi.service.LivroService;
@@ -13,8 +16,9 @@ import tech.ada.livrosapi.service.LivroService;
 import java.util.List;
 import java.util.UUID;
 
-@RestController
-@RequestMapping("livros")
+
+@Controller
+@RequestMapping("/livros")
 public class LivroController {
 
     private final LivroService livroService;
@@ -26,32 +30,46 @@ public class LivroController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
     public LivroResponse create(@Valid @RequestBody LivroRequest livroRequest){
         return modelMapper.map(livroService.create(livroRequest), LivroResponse.class);
     }
 
     @GetMapping
-    public List<LivroResponse> getAll(){
-        return livroService.getAll()
-                .stream()
-                .map(livro -> modelMapper.map(livro, LivroResponse.class))
-                .toList();
+    public String getAll(Model model){
+        List<Livro> livros = livroService.getAll();
+        model.addAttribute("livros", livros);
+        return "livros";
     }
 
-    @GetMapping("/{id}")
-    public LivroResponse getById(@PathVariable UUID id){
-        return modelMapper.map(livroService.getById(id), LivroResponse.class);
+    @GetMapping("/cadastrar")
+    public String create(Model model){
+        model.addAttribute("livro", new Livro());
+        return "cadastrar-livro";
     }
 
-    @PutMapping("/{id}")
-    public LivroResponse update(@PathVariable UUID id, @Valid @RequestBody LivroRequest livroRequest){
-        return modelMapper.map(livroService.update(id, livroRequest), LivroResponse.class);
+    @PostMapping("/cadastrar")
+    public String save(@Valid LivroRequest livroRequest){
+        livroService.create(livroRequest);
+        return "redirect:/livros";
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable UUID id){
-        livroService.delete(id);
-        return ResponseEntity.ok("Livro cujo Id - %s - foi deletado com sucesso!".formatted(id));
+    public String delete(@PathVariable String id){
+        livroService.delete(UUID.fromString(id));
+        return "redirect:/livros";
     }
+
+    @GetMapping("/editar/{id}")
+    public String editar(@PathVariable String id, Model model) {
+        Livro livro = livroService.getById(UUID.fromString(id));
+        model.addAttribute("livro", livro);
+        return "editar-livro";
+    }
+
+    @PutMapping("/editar/{id}")
+    public String update(@PathVariable String id, @Valid LivroRequest livroRequest) {
+        livroService.update(UUID.fromString(id), livroRequest);
+        return "redirect:/livros";
+    }
+
 }

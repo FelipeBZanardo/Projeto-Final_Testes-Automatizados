@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+<html lang="pt-br">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, max-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Livros</title>
+  <div th:include="navbar"></div>
+</head>
+<body>
+<div class="flex-box flex-column justify-content-center my-auto">
+  <div>
+    <table class="table table-striped" style="overflow: auto;">
+      <thead>
+      <tr>
+        <th scope="col">Título</th>
+        <th scope="col">Resumo</th>
+        <th scope="col">Sumário</th>
+        <th scope="col">Preço (R$)</th>
+        <th scope="col">Número de Páginas</th>
+        <th scope="col">ISBN</th>
+        <th scope="col">Data de Publicação</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="livro : ${livros}">
+        <td th:text="${livro.titulo}"></td>
+        <td th:text="${livro.resumo}"></td>
+        <td th:text="${livro.sumario}"></td>
+        <td th:text="${#numbers.formatCurrency(livro.preco)}"></td>
+        <td th:text="${livro.numeroPaginas}"></td>
+        <td th:text="${livro.isbn}"></td>
+        <td th:text="${#temporals.format(livro.dataPublicacao, 'dd/MM/yyyy')}"></td>
+        <td>
+          <form th:action="@{/livros/editar/{id}(id=${livro.id})}" th:method="get">
+            <button type="submit" class="btn btn-primary edit">Editar</button>
+          </form>
+        </td>
+        <td>
+          <form th:action="@{/livros/{id}(id=${livro.id})}" th:method="delete">
+            <button type="submit" class="btn btn-danger delete">Remover</button>
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div style="min-height: 100px; padding: 50px; margin-bottom: 50px;"></div>
+</body>
+</html>

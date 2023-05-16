@@ -9,6 +9,7 @@ import tech.ada.livrosapi.system.LocalDateSerializer;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 public record LivroRequest(
+
         @NotBlank(message = "O Título do livro é obrigatório")
         String titulo,
         @NotBlank(message = "O Resumo do livro é obrigatório")
@@ -30,4 +31,6 @@ public record LivroRequest(
         @JsonSerialize(using = LocalDateSerializer.class)
         @Future(message = "A Data de Publicação do livro deve ser no fututo")
         @NotNull(message = "A Data de Publicação do livro é obrigatória")
-        LocalDate dataPublicacao) { }
+        LocalDate dataPublicacao) {
+
+}
