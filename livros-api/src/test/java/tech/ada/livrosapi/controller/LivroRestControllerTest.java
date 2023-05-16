@@ -39,22 +39,13 @@ class LivroRestControllerTest {
     private LivroRequest livroRequest;
     private LivroResponse livroResponse;
     private Livro livro;
-    private String livroResponseJson;
     private static final UUID ID = UUID.fromString("5fa3cf7a-2836-40dc-957b-43bdac98104a");
-    private static final String TITULO = "Titulo";
-    private static final String RESUMO = "Resumo";
-    private static final String SUMARIO = "Sumario";
     private static final BigDecimal PRECO = BigDecimal.valueOf(20.00);
-    private static final int NUMERO_PAGINAS = 100;
-    private static final String ISBN = "1234567891011";
-    private static final LocalDate DATA_PUBLICACAO = LocalDate.of(2023,6,25);
 
     @BeforeEach
-    void setUp() throws JsonProcessingException {
+    void setUp() {
         this.mockMvc = MockMvcBuilders.standaloneSetup(livroRestController).build();
         startLivro();
-        gerarJson();
-
     }
 
     @Test
@@ -63,9 +54,9 @@ class LivroRestControllerTest {
         doReturn(livroResponse).when(modelMapper).map(any(Livro.class), any());
         mockMvc.perform(MockMvcRequestBuilders.post("/rest/livros")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(livroResponseJson))
+                        .content(gerarJson(livroRequest)))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(content().json(livroResponseJson))
+                .andExpect(content().json(gerarJson(livroResponse)))
                 .andExpect(status().isCreated());
 
         verify(livroService).create(livroRequest);
@@ -93,7 +84,7 @@ class LivroRestControllerTest {
         doReturn(livroResponse).when(modelMapper).map(any(Livro.class), any());
         mockMvc.perform(MockMvcRequestBuilders.get("/rest/livros/{id}", ID))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(content().json(livroResponseJson))
+                .andExpect(content().json(gerarJson(livroResponse)))
                 .andExpect(status().isOk());
 
         verify(livroService).getById(ID);
@@ -105,9 +96,9 @@ class LivroRestControllerTest {
         doReturn(livro).when(livroService).update(any(UUID.class), any(LivroRequest.class));
         mockMvc.perform(MockMvcRequestBuilders.put("/rest/livros/{id}", ID)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(livroResponseJson))
+                        .content(gerarJson(livroRequest)))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(content().json(livroResponseJson))
+                .andExpect(content().json(gerarJson(livroResponse)))
                 .andExpect(status().isOk());
 
         verify(livroService).update(ID, livroRequest);
@@ -126,14 +117,20 @@ class LivroRestControllerTest {
     }
 
     private void startLivro(){
-        livroRequest = new LivroRequest(TITULO, RESUMO, SUMARIO, PRECO, NUMERO_PAGINAS, ISBN, DATA_PUBLICACAO);
-        livroResponse = new LivroResponse(ID, TITULO, RESUMO, SUMARIO, PRECO, NUMERO_PAGINAS, ISBN, DATA_PUBLICACAO);
-        livro = new Livro(ID, TITULO, RESUMO, SUMARIO, PRECO, NUMERO_PAGINAS, ISBN, DATA_PUBLICACAO);
+        String titulo = "Titulo";
+        String resumo = "Resumo";
+        String sumario = "Sumario";
+        Integer numeroPaginas = 100;
+        String isbn = "1234567891011";
+        LocalDate dataPublicacao = LocalDate.of(2023,6,25);
+        livroRequest = new LivroRequest(titulo, resumo, sumario, PRECO, numeroPaginas, isbn, dataPublicacao);
+        livroResponse = new LivroResponse(ID, titulo, resumo, sumario, PRECO, numeroPaginas, isbn, dataPublicacao);
+        livro = new Livro(ID, titulo, resumo, sumario, PRECO, numeroPaginas, isbn, dataPublicacao);
     }
 
-    private void gerarJson() throws JsonProcessingException {
+    private String gerarJson(Object object) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-        livroResponseJson = objectMapper.writeValueAsString(livroResponse);
+        return objectMapper.writeValueAsString(object);
     }
 
 }

@@ -100,15 +100,15 @@ class LivroControllerTest {
     }
 
     private void startLivro(){
-        String TITULO = "Titulo";
-        String RESUMO = "Resumo";
-        String SUMARIO = "Sumario";
-        BigDecimal PRECO = BigDecimal.valueOf(20.00);
-        Integer NUMERO_PAGINAS = 100;
-        String ISBN = "1234567891011";
-        LocalDate DATA_PUBLICACAO = LocalDate.of(2023,6,25);
-        livroRequest = new LivroRequest(TITULO, RESUMO, SUMARIO, PRECO, NUMERO_PAGINAS, ISBN, DATA_PUBLICACAO);
-        livro = new Livro(ID, TITULO, RESUMO, SUMARIO, PRECO, NUMERO_PAGINAS, ISBN, DATA_PUBLICACAO);
+        String titulo = "Titulo";
+        String resumo = "Resumo";
+        String sumario = "Sumario";
+        BigDecimal preco = BigDecimal.valueOf(20.00);
+        Integer numeroPaginas = 100;
+        String isbn = "1234567891011";
+        LocalDate dataPublicacao = LocalDate.of(2023,6,25);
+        livroRequest = new LivroRequest(titulo, resumo, sumario, preco, numeroPaginas, isbn, dataPublicacao);
+        livro = new Livro(ID, titulo, resumo, sumario, preco, numeroPaginas, isbn, dataPublicacao);
     }
 
     private String gerarJson(Object object) throws JsonProcessingException {
