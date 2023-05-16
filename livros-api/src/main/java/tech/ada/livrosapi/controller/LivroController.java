@@ -19,16 +19,9 @@ import java.util.UUID;
 public class LivroController {
 
     private final LivroService livroService;
-    private final ModelMapper modelMapper;
 
-    public LivroController(LivroService livroService, ModelMapper modelMapper) {
+    public LivroController(LivroService livroService) {
         this.livroService = livroService;
-        this.modelMapper = modelMapper;
-    }
-
-    @PostMapping
-    public LivroResponse create(@Valid @RequestBody LivroRequest livroRequest){
-        return modelMapper.map(livroService.create(livroRequest), LivroResponse.class);
     }
 
     @GetMapping
@@ -45,7 +38,7 @@ public class LivroController {
     }
 
     @PostMapping("/cadastrar")
-    public String save(@Valid LivroRequest livroRequest){
+    public String save(@Valid @RequestBody LivroRequest livroRequest){
         livroService.create(livroRequest);
         return "redirect:/livros";
     }
@@ -64,7 +57,7 @@ public class LivroController {
     }
 
     @PutMapping("/editar/{id}")
-    public String update(@PathVariable String id, @Valid LivroRequest livroRequest) {
+    public String update(@PathVariable String id, @Valid @RequestBody LivroRequest livroRequest) {
         livroService.update(UUID.fromString(id), livroRequest);
         return "redirect:/livros";
     }
