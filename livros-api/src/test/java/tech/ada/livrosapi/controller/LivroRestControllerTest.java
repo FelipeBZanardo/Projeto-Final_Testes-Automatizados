@@ -28,9 +28,9 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
-class LivroControllerTest {
+class LivroRestControllerTest {
     @InjectMocks
-    private LivroController livroController;
+    private LivroRestController livroRestController;
     @Mock
     private LivroService livroService;
     @Mock
@@ -51,7 +51,7 @@ class LivroControllerTest {
 
     @BeforeEach
     void setUp() throws JsonProcessingException {
-        this.mockMvc = MockMvcBuilders.standaloneSetup(livroController).build();
+        this.mockMvc = MockMvcBuilders.standaloneSetup(livroRestController).build();
         startLivro();
         gerarJson();
 
@@ -61,7 +61,7 @@ class LivroControllerTest {
     void deveCriarLivroMockMvc() throws Exception {
         doReturn(livro).when(livroService).create(any(LivroRequest.class));
         doReturn(livroResponse).when(modelMapper).map(any(Livro.class), any());
-        mockMvc.perform(MockMvcRequestBuilders.post("/livros")
+        mockMvc.perform(MockMvcRequestBuilders.post("/rest/livros")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(livroResponseJson))
                 .andDo(MockMvcResultHandlers.print())
@@ -76,7 +76,7 @@ class LivroControllerTest {
         doReturn(List.of(livro)).when(livroService).getAll();
         doReturn(livroResponse).when(modelMapper).map(any(), any());
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/livros"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/rest/livros"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
@@ -91,7 +91,7 @@ class LivroControllerTest {
     void deveObterLivroPorIdMockMvc() throws Exception {
         doReturn(livro).when(livroService).getById(any(UUID.class));
         doReturn(livroResponse).when(modelMapper).map(any(Livro.class), any());
-        mockMvc.perform(MockMvcRequestBuilders.get("/livros/{id}", ID))
+        mockMvc.perform(MockMvcRequestBuilders.get("/rest/livros/{id}", ID))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(content().json(livroResponseJson))
                 .andExpect(status().isOk());
@@ -103,7 +103,7 @@ class LivroControllerTest {
     void deveAtualizarLivroMockMvc() throws Exception {
         doReturn(livroResponse).when(modelMapper).map(any(Livro.class), any());
         doReturn(livro).when(livroService).update(any(UUID.class), any(LivroRequest.class));
-        mockMvc.perform(MockMvcRequestBuilders.put("/livros/{id}", ID)
+        mockMvc.perform(MockMvcRequestBuilders.put("/rest/livros/{id}", ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(livroResponseJson))
                 .andDo(MockMvcResultHandlers.print())
@@ -117,7 +117,7 @@ class LivroControllerTest {
     void deveRemoverLivroMockMvc() throws Exception {
         String esperado = "Livro cujo Id - %s - foi deletado com sucesso!".formatted(ID);
         doNothing().when(livroService).delete(any(UUID.class));
-        mockMvc.perform(MockMvcRequestBuilders.delete("/livros/{id}", ID))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/rest/livros/{id}", ID))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").value(esperado));

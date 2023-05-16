@@ -2,7 +2,6 @@ package tech.ada.livrosapi.controller;
 
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,13 +13,13 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("livros")
-public class LivroController {
+@RequestMapping("/rest/livros")
+public class LivroRestController {
 
     private final LivroService livroService;
     private final ModelMapper modelMapper;
 
-    public LivroController(LivroService livroService, ModelMapper modelMapper) {
+    public LivroRestController(LivroService livroService, ModelMapper modelMapper) {
         this.livroService = livroService;
         this.modelMapper = modelMapper;
     }
