@@ -190,7 +190,7 @@ class LivroRequestTest {
         Set<ConstraintViolation<LivroRequest>> violations = getConstraintViolations(livroRequest);
         String messageViolation = getMessageViolation(violations);
         assertFalse(violations.isEmpty());
-        assertEquals("A Data de Publicação do livro deve ser no fututo", messageViolation);
+        assertEquals("A Data de Publicação do livro deve ser no futuro", messageViolation);
     }
 
     private String obterResumoInvalido(){
