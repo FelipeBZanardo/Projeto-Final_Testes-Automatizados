@@ -22,7 +22,7 @@ public record LivroRequest(
         BigDecimal preco,
         @NotNull(message = "O Número de Páginas do livro é obrigatório")
         @Min(value = 100, message = "O número mínimo de páginas é 100")
-        int numeroPaginas,
+        Integer numeroPaginas,
         @NotBlank(message = "ISBN do livro é obrigatório")
         String isbn,
         //@JsonFormat(pattern = "dd/MM/yyyy")
