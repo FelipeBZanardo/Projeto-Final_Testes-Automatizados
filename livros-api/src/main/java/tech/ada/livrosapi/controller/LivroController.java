@@ -1,13 +1,10 @@
 package tech.ada.livrosapi.controller;
 
-import jakarta.validation.Valid;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import tech.ada.livrosapi.model.Livro;
 import tech.ada.livrosapi.model.dto.LivroRequest;
-import tech.ada.livrosapi.model.dto.LivroResponse;
 import tech.ada.livrosapi.service.LivroService;
 
 import java.util.List;

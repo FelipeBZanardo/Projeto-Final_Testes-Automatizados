@@ -15,6 +15,7 @@ import tech.ada.livrosapi.model.dto.LivroRequest;
 import tech.ada.livrosapi.service.LivroService;
 
 import java.math.BigDecimal;
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
