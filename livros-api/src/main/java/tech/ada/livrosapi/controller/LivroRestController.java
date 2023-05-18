@@ -27,7 +27,7 @@ public class LivroRestController {
     @PostMapping
     public ResponseEntity<LivroResponse> create(@Valid @RequestBody LivroRequest livroRequest){
         LivroResponse livroResponse = modelMapper.map(livroService.create(livroRequest), LivroResponse.class);
-        return new ResponseEntity<LivroResponse>(livroResponse, HttpStatus.CREATED);
+        return new ResponseEntity<>(livroResponse, HttpStatus.CREATED);
     }
 
     @GetMapping
