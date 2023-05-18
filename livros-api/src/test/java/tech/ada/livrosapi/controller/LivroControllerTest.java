@@ -63,8 +63,13 @@ class LivroControllerTest {
         doReturn(livro).when(livroService).create(any(LivroRequest.class));
         this.mockMvc
                 .perform(MockMvcRequestBuilders.post("/livros/cadastrar")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(gerarJson(livroRequest)))
+                        .param("titulo", "Titulo")
+                        .param("resumo", "Resumo")
+                        .param("sumario", "Sumário")
+                        .param("preco", "20.00")
+                        .param("numeroPaginas", "100")
+                        .param("isbn", "2121654541")
+                        .param("dataPublicacao", "2023-12-12"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/livros"));
     }
@@ -93,8 +98,13 @@ class LivroControllerTest {
         doReturn(livro).when(livroService).update(any(UUID.class), any(LivroRequest.class));
         this.mockMvc
                 .perform(MockMvcRequestBuilders.put("/livros/editar/{id}", ID)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(gerarJson(livroRequest)))
+                        .param("titulo", "Titulo")
+                        .param("resumo", "Resumo")
+                        .param("sumario", "Sumário")
+                        .param("preco", "20.00")
+                        .param("numeroPaginas", "100")
+                        .param("isbn", "2121654541")
+                        .param("dataPublicacao", "2023-12-12"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/livros"));
     }
