@@ -34,8 +34,8 @@ public class LivroController {
         return "cadastrar-livro";
     }
 
-    @PostMapping(value = "/cadastrar")
-    public String save(LivroRequest livroRequest){
+    @PostMapping("/cadastrar")
+    public String save(@Valid @ModelAttribute LivroRequest livroRequest){
         livroService.create(livroRequest);
         return "redirect:/livros";
     }
@@ -54,7 +54,7 @@ public class LivroController {
     }
 
     @PutMapping("/editar/{id}")
-    public String update(@PathVariable String id,LivroRequest livroRequest) {
+    public String update(@PathVariable String id,@Valid @ModelAttribute LivroRequest livroRequest) {
         livroService.update(UUID.fromString(id), livroRequest);
         return "redirect:/livros";
     }
