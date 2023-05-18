@@ -52,7 +52,7 @@ public class SeleniumTest {
         webDriver.findElement(By.xpath("/html/body/form/div[8]/button")).click(); //botão Criar
 
         List<WebElement> titulosCadastrados = webDriver.findElements(By
-                .xpath("/html/body/div[2]/div/table/tbody/tr[*]/td[1]"));
+                .xpath("//tr[*]/td[1]"));
         assertFalse(titulosCadastrados.isEmpty()); //verifica se há itens cadastrados
 
         List<WebElement> webElements = titulosCadastrados
@@ -69,12 +69,12 @@ public class SeleniumTest {
     void remocaoDeLivroCadastradoSeleniumTest() {
         cadastroDeLivroSeleniumTest();  //faz o cadastro para poder fazer o teste de remoção
         List<WebElement> titulosCadastrados = webDriver
-                .findElements(By.xpath("/html/body/div[2]/div/table/tbody/tr[*]/td[1]"));
+                .findElements(By.xpath("//tr[*]/td[1]"));
 
         webDriver.findElement(By
-                .xpath("/html/body/div[2]/div/table/tbody/tr[1]/td[9]/form/button")).click(); //remove o primeiro item cadastrado
+                .xpath("//tr[1]/td[9]/form/button")).click(); //remove o primeiro item cadastrado
         List<WebElement> titulosCadastradosPosRemocao = webDriver
-                .findElements(By.xpath("/html/body/div[2]/div/table/tbody/tr[*]/td[1]"));
+                .findElements(By.xpath("//tr[*]/td[1]"));
 
         assertEquals(titulosCadastrados.size() - 1, titulosCadastradosPosRemocao.size()); //verifica se um item foi removido
     }
@@ -83,7 +83,7 @@ public class SeleniumTest {
     void clicarBotaoEditarDeveDirecionarParaPaginaDeEdicaoSeleniumTest() {
         cadastroDeLivroSeleniumTest();  //faz o cadastro para poder fazer o teste de edição
         webDriver.findElement(By
-                .xpath("/html/body/div[2]/div/table/tbody/tr[1]/td[8]/form/button")).click(); //clica no botão Editar
+                .xpath("//tr[1]/td[8]/form/button")).click(); //clica no botão Editar
 
         assertTrue(webDriver.getCurrentUrl().contains("http://localhost:8080/livros/editar/")); //verifica se direciona para página de edição
     }
@@ -91,20 +91,20 @@ public class SeleniumTest {
     @Test
     void editarLivroCadastradoSeleniumTest() {
         clicarBotaoEditarDeveDirecionarParaPaginaDeEdicaoSeleniumTest(); //faz o cadastro e testa se está na página de edição
-        webDriver.findElement(By.id("titulo")).sendKeys("Título modificado");   //atualiza o nome do título
+        webDriver.findElement(By.id("dataPublicacao")).sendKeys("05/05/2050");   //atualiza a data de publicacao
         webDriver.findElement(By.xpath("/html/body/form/div[8]/button")).click(); //botão Editar
 
         assertEquals("http://localhost:8080/livros", webDriver.getCurrentUrl()); //verifica se retorna para página inicial
 
-        List<WebElement> titulosCadastrados = webDriver
-                .findElements(By.xpath("/html/body/div[2]/div/table/tbody/tr[*]/td[1]"));
+        List<WebElement> datasCadastradas = webDriver
+                .findElements(By.xpath("//tr[3]/td[7]"));
 
-        List<WebElement> webElements = titulosCadastrados
+        List<WebElement> webElements = datasCadastradas
                 .stream()
-                .filter(webElement -> webElement.getText().equals("Título modificado"))
+                .filter(webElement -> webElement.getText().equals("05/05/2050"))
                 .toList();
 
-        assertTrue(webElements.isEmpty()); //verifica se o Título foi modificado
+        assertTrue(webElements.isEmpty()); //verifica se a data de publicação foi modificada
 
     }
 }
