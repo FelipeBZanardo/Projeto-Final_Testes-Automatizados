@@ -1,6 +1,5 @@
 package tech.ada.livrosapi.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,19 +13,14 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import tech.ada.livrosapi.LivrosApiApplication;
 import tech.ada.livrosapi.model.Livro;
 import tech.ada.livrosapi.model.dto.LivroRequest;
-import tech.ada.livrosapi.model.dto.LivroResponse;
-
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
@@ -38,7 +32,6 @@ public class LivroRestControllerIntegracaoTest {
     private MockMvc mockMvc;
     private MvcResult mvcLivroResult;
     private Livro livro;
-
     private ObjectMapper mapper = new ObjectMapper();
     private LivroRequest request;
 
