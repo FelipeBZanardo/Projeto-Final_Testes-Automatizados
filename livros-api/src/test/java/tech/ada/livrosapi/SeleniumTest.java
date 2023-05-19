@@ -108,7 +108,10 @@ public class SeleniumTest {
     @Test
     void editarLivroCadastradoSeleniumTest() {
         clicarBotaoEditarDeveDirecionarParaPaginaDeEdicaoSeleniumTest(); //faz o cadastro e testa se está na página de edição
-        webDriver.findElement(By.id("dataPublicacao")).sendKeys("05/05/2050");   //atualiza a data de publicacao
+        WebElement dataPublicacaoElement = webDriver.findElement(By.id("dataPublicacao"));
+        dataPublicacaoElement.clear(); //limpa o campo da data
+        dataPublicacaoElement.sendKeys("05/05/2050");   //atualiza a data de publicacao
+
         webDriver.findElement(By.xpath("/html/body/form/div[8]/button")).click(); //botão Editar
 
         assertEquals("http://localhost:8080/livros", webDriver.getCurrentUrl()); //verifica se retorna para página inicial

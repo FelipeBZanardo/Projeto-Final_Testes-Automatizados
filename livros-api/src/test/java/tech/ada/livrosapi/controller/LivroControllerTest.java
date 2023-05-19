@@ -1,21 +1,19 @@
 package tech.ada.livrosapi.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import tech.ada.livrosapi.model.Livro;
 import tech.ada.livrosapi.model.dto.LivroRequest;
 import tech.ada.livrosapi.service.LivroService;
 
 import java.math.BigDecimal;
-import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -26,17 +24,18 @@ import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
-@WebMvcTest(LivroController.class)
+@ExtendWith(MockitoExtension.class)
 class LivroControllerTest {
-    @MockBean
+    @InjectMocks
+    private LivroController livroController;
+    @Mock
     private LivroService livroService;
-    @Autowired
     private MockMvc mockMvc;
-    private LivroRequest livroRequest;
     private Livro livro;
     private static final UUID ID = UUID.fromString("5fa3cf7a-2836-40dc-957b-43bdac98104a");
     @BeforeEach
     void setUp() {
+        this.mockMvc = MockMvcBuilders.standaloneSetup(livroController).build();
         startLivro();
     }
 
@@ -44,7 +43,7 @@ class LivroControllerTest {
     void deveDirecionarParaPaginaDeListarLivros() throws Exception {
         doReturn(List.of(livro)).when(livroService).getAll();
         this.mockMvc
-                .perform(MockMvcRequestBuilders.get("/livros"))
+                .perform(MockMvcRequestBuilders.get("/livros/"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("livros"))
                 .andExpect(model().attributeExists("livros"));
@@ -118,12 +117,6 @@ class LivroControllerTest {
         Integer numeroPaginas = 100;
         String isbn = "1234567891011";
         LocalDate dataPublicacao = LocalDate.of(2023,6,25);
-        livroRequest = new LivroRequest(titulo, resumo, sumario, preco, numeroPaginas, isbn, dataPublicacao);
         livro = new Livro(ID, titulo, resumo, sumario, preco, numeroPaginas, isbn, dataPublicacao);
-    }
-
-    private String gerarJson(Object object) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.writeValueAsString(object);
     }
 }
