@@ -197,18 +197,18 @@ Para realização dos Testes com Selenium, basta "rodar" a aplicação principal
 ### Tela Principal / Listar Livros:
 http://localhost:8080/livros
 
-![Tela Listar Livros](https://github.com/FelipeBZanardo/Projeto-Final_Testes-Automatizados/tree/master/livros-api/src/main/resources/static/tela-principal.png)
+![Tela Listar Livros](https://github.com/FelipeBZanardo/Projeto-Final_Testes-Automatizados/blob/master/livros-api/src/main/resources/static/tela-principal.png)
 
 ### Tela Cadastro / Tela Editar:
 http://localhost:8080/livros/cadastrar
 http://localhost:8080/livros/editar/{id}
 
-![Tela Cadastro/Editar](https://github.com/FelipeBZanardo/Projeto-Final_Testes-Automatizados/tree/master/livros-api/src/main/resources/static/tela-cadastro-edicao.png)
+![Tela Cadastro/Editar](https://github.com/FelipeBZanardo/Projeto-Final_Testes-Automatizados/blob/master/livros-api/src/main/resources/static/tela-cadastro-edicao.png)
 
 ### Resultado dos Testes
 🚨**Foi excluído a Classe Main na cobertura dos testes!**
 
-![Cobertura-Testes](https://github.com/FelipeBZanardo/Projeto-Final_Testes-Automatizados/tree/master/livros-api/src/main/resources/static/cobertura-testes.png)
+![Cobertura-Testes](https://github.com/FelipeBZanardo/Projeto-Final_Testes-Automatizados/blob/master/livros-api/src/main/resources/static/cobertura-testes.png)
 
 ## 🛠️ Tecnologias Utilizadas
 
