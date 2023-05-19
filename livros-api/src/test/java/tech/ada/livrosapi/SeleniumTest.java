@@ -9,15 +9,20 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SeleniumTest {
     private static WebDriver webDriver;
+    private String msg = "Campo inválido: 'sumario'. Causa: 'O Sumário do livro é obrigatório'. , Campo inválido: " +
+            "'resumo'. Causa: 'O Resumo do livro é obrigatório'. , Campo inválido: 'preco'. Causa: 'O Preço do livro é obrigatório'. , Campo inválido: 'numeroPaginas'. Causa: 'O Número de Páginas do livro é obrigatório'. , Campo inválido: 'dataPublicacao'. Causa: 'A Data de Publicação do livro é obrigatória'. , Campo inválido: 'titulo'. Causa: 'O Título do livro é obrigatório'. , Campo inválido: 'isbn'. Causa: 'ISBN do livro é obrigatório'.";
     @BeforeEach
     void setUp() {
-        System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver");
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*");
         webDriver = new ChromeDriver(chromeOptions);
@@ -26,7 +31,7 @@ public class SeleniumTest {
 
     @AfterEach
     void tearDown() {
-        webDriver.quit();
+       webDriver.quit();
     }
 
     @Test
@@ -62,6 +67,18 @@ public class SeleniumTest {
 
         assertFalse(webElements.isEmpty()); //verifica se o Título 1 foi cadastrado
         assertEquals("http://localhost:8080/livros", webDriver.getCurrentUrl()); //verifica se retorna para página inicial
+
+    }
+
+    @Test
+    void cadastroDeLivroErradoSeleniumTest() {
+        WebElement btnCadastrar = webDriver.findElement(By.linkText("Cadastrar Livro"));
+        btnCadastrar.click(); //entra na página de cadastro
+
+        webDriver.findElement(By.xpath("/html/body/form/div[8]/button")).click(); //botão Criar
+        webDriver.switchTo().activeElement();
+        List<WebElement> elements = webDriver.findElements(By.xpath("/html/body"));
+        assertFalse(elements.isEmpty());
 
     }
 

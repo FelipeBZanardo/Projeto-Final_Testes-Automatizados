@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Future;
 import lombok.*;
 import tech.ada.livrosapi.system.LocalDateDeserializer;
 import tech.ada.livrosapi.system.LocalDateSerializer;
@@ -35,5 +36,6 @@ public class Livro {
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonFormat(pattern = "dd/MM/yyyy")
+    @Future
     private LocalDate dataPublicacao;
 }

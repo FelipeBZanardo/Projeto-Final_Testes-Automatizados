@@ -59,8 +59,22 @@ public class LivroRestControllerIntegracaoTest {
 
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.BEFORE_METHOD)
-    void deveAdicionarUmLivroIntegracaoTest() {
+    void deveAdicionarUmLivroIntegracaoTest() throws Exception {
         assertEquals(request.isbn(), livro.getIsbn());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/rest/livros")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(jsonPath("$.[0]").exists());
+
+        LivroRequest livroPassado = new LivroRequest("tituloPassado", "resumoPassado", "sumarioPassado",
+                BigDecimal.valueOf(100L), 300, "555555", LocalDate.of(2022,7,22));
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/rest/livros")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(livroPassado)))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andReturn();
     }
 
     @Test
