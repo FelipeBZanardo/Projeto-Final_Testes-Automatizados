@@ -9,20 +9,16 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.ListIterator;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SeleniumTest {
     private static WebDriver webDriver;
-    private String msg = "Campo inválido: 'sumario'. Causa: 'O Sumário do livro é obrigatório'. , Campo inválido: " +
-            "'resumo'. Causa: 'O Resumo do livro é obrigatório'. , Campo inválido: 'preco'. Causa: 'O Preço do livro é obrigatório'. , Campo inválido: 'numeroPaginas'. Causa: 'O Número de Páginas do livro é obrigatório'. , Campo inválido: 'dataPublicacao'. Causa: 'A Data de Publicação do livro é obrigatória'. , Campo inválido: 'titulo'. Causa: 'O Título do livro é obrigatório'. , Campo inválido: 'isbn'. Causa: 'ISBN do livro é obrigatório'.";
     @BeforeEach
     void setUp() {
-        System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver");
+        //System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver");     //mac
+        System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe"); //windowns
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*");
         webDriver = new ChromeDriver(chromeOptions);
@@ -79,6 +75,25 @@ public class SeleniumTest {
         webDriver.switchTo().activeElement();
         List<WebElement> elements = webDriver.findElements(By.xpath("/html/body"));
         assertFalse(elements.isEmpty());
+
+    }
+
+    @Test
+    void cadastroDeLivroComTituloVazioSeleniumTest() {
+        WebElement btnCadastrar = webDriver.findElement(By.linkText("Cadastrar Livro"));
+        btnCadastrar.click(); //entra na página de cadastro
+
+        webDriver.findElement(By.id("resumo")).sendKeys("Resumo 1");
+        webDriver.findElement(By.id("sumario")).sendKeys("Sumário 1");
+        webDriver.findElement(By.id("preco")).sendKeys("25,00");
+        webDriver.findElement(By.id("numeroPaginas")).sendKeys("500");
+        webDriver.findElement(By.id("isbn")).sendKeys("5451216565");
+        webDriver.findElement(By.id("dataPublicacao")).sendKeys("02/05/2025");
+
+        webDriver.findElement(By.xpath("/html/body/form/div[8]/button")).click(); //botão Criar
+
+        WebElement element = webDriver.findElement(By.xpath("/html/body"));
+        assertEquals("Campo inválido: 'titulo'. Causa: 'O Título do livro é obrigatório'.", element.getText());
 
     }
 
